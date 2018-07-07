@@ -1,0 +1,33 @@
+Docker
+	Basic Concepts and Commands 								done
+	search/push/pull/run with port mapping using nginx			done
+	create image from Docker File for .netcore 2.0				done
+	create image from Docker file for JavaScript Application
+	push/pull those images										done
+	Run and test with Port mapping Enabled						done			
+	
+
+Kubernetes	
+	Introduction using Document 								done
+	Setup using minikube										next-2
+	Run a pod 													next-2
+	Run a Service												next-2
+	Basic Demo													next-2
+	
+
+ENDGAME:
+	eshop on Containers
+	
+	Linux
+	RHEL Docker													hiatus
+	SUSE Docker													next
+	MINIKUBE													next
+	KUBE ON RHEL												hiatus
+	multi-cluster setup											next-3
+	payload deploy on multi-cluster								next-4
+	
+	
+	
+	see teja docker images
+	vsphere based kubernetes
+	Add third Node

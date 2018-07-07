@@ -1,0 +1,81 @@
+SETUP:
+	create a CentOS VM/Server
+
+Zabbix.repo
+			[root@k8s-Slave01 ~]# cat /etc/yum.repos.d/zabbix.repo
+			[zabbix]
+			name=Zabbix Official Repository - $basearch
+			baseurl=http://repo.zabbix.com/zabbix/3.4/rhel/7/$basearch/
+			enabled=1
+			gpgcheck=1
+			gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-ZABBIX-A14FE591
+
+			[zabbix-non-supported]
+			name=Zabbix Official Repository non-supported - $basearch
+			baseurl=http://repo.zabbix.com/non-supported/rhel/7/$basearch/
+			enabled=1
+			gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-ZABBIX
+			gpgcheck=1
+
+ZABBIX
+	https://www.zabbix.com/download
+
+SETTING UP MYSQL ON LINUX
+		https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-centos-7
+		https://dev.mysql.com/downloads/repo/yum/
+	mysql80-community-release-el7-1.noarch.rpm [pick your desired Version]
+			wget https://dev.mysql.com/get/mysql80-community-release-el7-1.noarch.rpm
+			rpm -ivh mysql80-community-release-el7-1.noarch.rpm
+			yum install mysql-server
+			systemctl start mysqld
+			systemctl enable mysqld
+			systemctl status mysqld
+	get temporary password
+			grep 'temporary password' /var/log/mysqld.log
+	reset password
+			mysql_secure_installation
+	enter old password and set new Root123@1
+	check the setup
+			mysqladmin -u root -p version
+
+Run Zabbix on CentOS
+	full configuration and access
+	Setup SQL
+		https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-centos-7
+	grant all privileges on zabbix.* to zabbix@localhost identified by 'password'; won't work; instead use:
+			 mysql>  create user zabbix@localhost identified by 'Root123@1';
+				Query OK, 0 rows affected (0.11 sec)
+
+			mysql> grant all privileges on zabbix.* to zabbix@localhost;
+				Query OK, 0 rows affected (0.10 sec)
+	Asia/Kolkata is the TimeZone for India
+	setup zabbix
+		https://www.zabbix.com/download
+
+
+Run agent on Windows
+	do Functionality test
+
+Run zabbix in centOS base image container
+	download centOS base image
+	Write Docker file
+	build docker file 
+	Run docker file
+
+
+Run zabbix as container [Docker image directly]
+		https://www.zabbix.com/documentation/3.4/manual/installation/containers
+	Example 1 
+			docker run --name zabbix-appliance -t \
+		      -p 10051:10051 \
+		      -p 80:80 \
+		      -d zabbix/zabbix-appliance:latest
+	go to browser
+	check <docker machine ip>:80 and <docker machine ip>:10051
+	Example 2
+	Example 2 with external DB
+
+Run zabbix on Kubernetes
+
+Dockerised Zabbix
+		https://zabbix.org/wiki/Dockerized_Zabbix

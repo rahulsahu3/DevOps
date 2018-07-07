@@ -1,0 +1,156 @@
+﻿kubeadm join 192.168.43.128:6443 --token xb73dl.omxx6vpwhtu0h4ld --discovery-token-ca-cert-hash sha256:a19beea411690362ea3a1500fe232aeb1555d54805af39f427529073acfd777a
+
+Different[Setup dashboard using Gulp]:
+		https://www.tutorialspoint.com/kubernetes/kubernetes_dashboard_setup.htm
+
+K8s Cluster:
+			[root@k8s-Master ~]# kubectl cluster-info
+			Kubernetes master is running at https://192.168.43.128:6443
+			KubeDNS is running at https://192.168.43.128:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+
+			To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+
+	Kubernetes runs on the 6443 port of Master
+
+	It can be accessed in the browser at https://192.168.43.128:6443/ [https://<master ip>:6443/]
+	But it will give a 403 error
+			{
+			  "kind": "Status",
+			  "apiVersion": "v1",
+			  "metadata": {
+			    
+			  },
+			  "status": "Failure",
+			  "message": "forbidden: User \"system:anonymous\" cannot get path \"/\"",
+			  "reason": "Forbidden",
+			  "details": {
+			    
+			  },
+			  "code": 403
+			}
+
+
+	https://192.168.43.128:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy -> 403
+			{
+			  "kind": "Status",
+			  "apiVersion": "v1",
+			  "metadata": {
+			    
+			  },
+			  "status": "Failure",
+			  "message": "services \"kube-dns:dns\" is forbidden: User \"system:anonymous\" cannot get services/proxy in the namespace \"kube-system\"",
+			  "reason": "Forbidden",
+			  "details": {
+			    "name": "kube-dns:dns",
+			    "kind": "services"
+			  },
+			  "code": 403
+			}
+
+	All the running pods after setup
+
+		[root@k8s-Master ~]# kubectl get pods --all-namespaces
+		NAMESPACE     NAME                                 READY     STATUS    RESTARTS   AGE
+		kube-system   coredns-78fcdf6894-mdmdx             1/1       Running   3          33m
+		kube-system   coredns-78fcdf6894-qrdd8             1/1       Running   3          33m
+		kube-system   etcd-k8s-master                      1/1       Running   0          32m
+		kube-system   kube-apiserver-k8s-master            1/1       Running   0          32m
+		kube-system   kube-controller-manager-k8s-master   1/1       Running   0          32m
+		kube-system   kube-flannel-ds-2lb66                1/1       Running   0          30m
+		kube-system   kube-flannel-ds-6h9w9                1/1       Running   0          24m
+		kube-system   kube-proxy-jffkx                     1/1       Running   0          33m
+		kube-system   kube-proxy-k5kv9                     1/1       Running   0          24m
+		kube-system   kube-scheduler-k8s-master            1/1       Running   0          32m
+
+
+For RBAC Flannel:
+	After setting up the cluster; in browser 6443 is inaccessible; unauthorised; that is resolved after implementing this
+			kubectl create -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/k8s-manifests/kube-flannel-rbac.yml
+			
+			kubectl delete -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/k8s-manifests/kube-flannel-rbac.yml
+
+ Setting up the DashBoard:
+	 	http://www.joseluisgomez.com/containers/kubernetes-dashboard/
+	 	https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml
+	 	https://github.com/kubernetes/dashboard/blob/master/src/deploy/recommended/kubernetes-dashboard.yaml
+	 		
+	 		kubectl create -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml
+
+	 		kube-system   kubernetes-dashboard-6948bdb78-t44sm   0/1       CrashLoopBackOff   6          8m
+
+ Generate Certs:
+ 		https://github.com/kubernetes/dashboard/wiki/Certificate-management
+	 		kubectl get secret kubernetes-dashboard-certs -n kube-system -o yaml
+
+	 		[root@k8s-Master ~]# mkdir KubeCerts
+
+			[root@k8s-Master ~]# cd KubeCerts/
+
+			[root@k8s-Master KubeCerts]# openssl genrsa -des3 -passout pass:x -out dashboard.pass.key 2048
+			Generating RSA private key, 2048 bit long modulus
+			.........................................................................................................+++
+			...................................................+++
+			e is 65537 (0x10001)
+
+			[root@k8s-Master KubeCerts]# openssl rsa -passin pass:x -in dashboard.pass.key -out dashboard.key
+			writing RSA key
+
+			[root@k8s-Master KubeCerts]# rm dashboard.pass.key
+			rm: remove regular file ‘dashboard.pass.key’? y
+
+			[root@k8s-Master KubeCerts]# openssl req -new -key dashboard.key -out dashboard.csr
+			You are about to be asked to enter information that will be incorporated
+			into your certificate request.
+			What you are about to enter is what is called a Distinguished Name or a DN.
+			There are quite a few fields but you can leave some blank
+			For some fields there will be a default value,
+			If you enter '.', the field will be left blank.
+			-----
+			Country Name (2 letter code) [XX]:91
+			State or Province Name (full name) []:KA
+			Locality Name (eg, city) [Default City]:BL
+			Organization Name (eg, company) [Default Company Ltd]:MPHASIS LTD
+			Organizational Unit Name (eg, section) []:HP
+			Common Name (eg, your name or your server's hostname) []:K8s
+			Email Address []:prem@gmail.com
+
+			Please enter the following 'extra' attributes
+			to be sent with your certificate request
+			A challenge password []:Compaq123
+			An optional company name []:Compaq123
+
+			[root@k8s-Master KubeCerts]# openssl x509 -req -sha256 -days 365 -in dashboard.csr -signkey dashboard.key -out dashboard.crt
+			Signature ok
+			subject=/C=91/ST=KA/L=BL/O=MPHASIS LTD/OU=HP/CN=K8s/emailAddress=prem@gmail.com
+			Getting Private key
+
+			kubectl create secret tls kubernetes-dashboard-certs --cert=dashboard.crt --key=dashboard.key
+			kubectl create secret tls kubernetes-dashboard-certs  -n kube-system --cert=dashboard.crt --key=dashboard.key
+
+Solution for CrashLoopBackOff:
+	Not Found
+
+
+To access kubectl from slave
+			scp root@192.168.43.128:/etc/kubernetes/admin.conf .
+			kubectl --kubeconfig ./admin.conf get nodes
+
+
+GET FILE USING CYGWIN
+			prem@prem-PC /cygdrive/e/TEJA NOTES
+			$ scp root@192.168.43.128://etc/kubernetes/admin.conf ./
+			Could not create directory '/home/prem/.ssh'.
+			The authenticity of host '192.168.43.128 (192.168.43.128)' can't be established.
+			ECDSA key fingerprint is SHA256:SQmCylnzl3iaJyOgyiL0ER1qxT7AMrkSHXlwGEmHnuc.
+			Are you sure you want to continue connecting (yes/no)? yes
+			Failed to add the host to the list of known hosts (/home/prem/.ssh/known_hosts).
+			root@192.168.43.128's password:
+			admin.conf                                                                                                                                                    100% 5454   172.8KB/s   00:00
+
+			prem@prem-PC /cygdrive/e/TEJA NOTES
+			$ ls
+			 admin.conf               'CentOS-Steps for k8s Cluster.txt'   DOCX                                      kubecfg.p12               minikube.txt         'Sample Apps'
+			'Cent-OS dns server.txt'  'Docker Commands.txt'               'Intro to Docker.txt'                      kubernetes-COMMANDS.txt   multi-cluster.txt     Suse-Docker.txt
+			 CentOS.txt               'Docker Files'                      'Kube on CentOS - After Setup steps.txt'   Linux_Issues.txt         'Plan of Action.txt'  'YAML Files'
+
+

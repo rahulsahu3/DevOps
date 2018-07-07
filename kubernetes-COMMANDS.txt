@@ -1,0 +1,5 @@
+kubectl apply -f
+lubectl create
+kubectl delete
+kubectl describe
+kubectl explain

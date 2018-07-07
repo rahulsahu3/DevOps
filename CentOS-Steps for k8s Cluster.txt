@@ -1,0 +1,109 @@
+vim /etc/hosts 
+
+add in above:
+192.168.43.128      k8s-Master
+192.168.43.100      k8s-Slave01
+
+192.168.1.23		Centos-k8s-Master
+198.168.1.24		node01
+198.168.1.25		node-02
+
+setenforce 0
+sed -i --follow-symlinks 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux
+
+modprobe br_netfilter
+echo '1' > /proc/sys/net/bridge/bridge-nf-call-iptables
+
+swapoff -a
+
+vim /etc/fstab
+
+-->
+comment out 
+/dev/mapper/centos-swap swap 
+
+yum install -y yum-utils device-mapper-persistent-data lvm2
+
+yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+yum install -y docker-ce
+
+cat <<EOF > /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg
+        https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+EOF
+
+
+
+yum install -y kubelet kubeadm kubectl
+
+
+sudo reboot
+
+
+systemctl start docker && systemctl enable docker
+systemctl start kubelet && systemctl enable kubelet
+
+docker info | grep -i cgroup
+
+sed -i 's/cgroup-driver=systemd/cgroup-driver=cgroupfs/g' /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
+
+systemctl daemon-reload
+systemctl restart kubelet
+
+*********only on Master
+kubeadm init --apiserver-advertise-address=<master ip> --pod-network-cidr=10.244.0.0/16
+
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+
+kubectl get nodes
+kubectl get pods --all-namespaces
+
+***********
+
+*********only on SLAVE
+kubeadm join 192.168.43.128:6443 --token gexg3n.jk1m7cn2k3lprsyt --discovery-token-ca-cert-hash sha256:1e5e8e83a787791d8e1a05f5b85c7c55cb749573e2eaa0ae162619c108018a5b
+***********
+
+**********Testing The Cluster
+kubectl create deployment nginx --image=nginx
+
+kubectl create deployment kubernetes-dashboard --image=k8s.gcr.io/kubernetes-dashboard-amd64:v1.8.3
+kubectl create service nodeport nginx --tcp=80:80
+
+kubectl get pods
+kubectl get svc
+
+curl k8s-Slave01:31437
+*******************
+
+
+#################################
+For DashBoard:
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml
+
+Error: CrashLoopBackOff
+
+[root@k8s-Master ~]# kubectl get pods --all-namespaces
+NAMESPACE     NAME                                   READY     STATUS             RESTARTS   AGE
+default       nginx-78f5d695bd-7j78l                 1/1       Running            0          4m
+kube-system   kube-scheduler-k8s-master              1/1       Running            0          1h
+kube-system   kubernetes-dashboard-6948bdb78-thz75   0/1       CrashLoopBackOff   6          9m
+
+
+In Browser:
+################################
+NodeIP:HostedOnPort [31437]
+
+HostedOnPort: kubectl get pods
+nginx        NodePort    10.107.194.115   <none>        80:31437/TCP   5m
+
