@@ -1,0 +1,2 @@
+run zabbix server connected to maria db on 100
+run maria db conatiner with volume mapped

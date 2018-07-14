@@ -1,0 +1,52 @@
+Maria DB
+
+On Cent OS 7:
+	https://www.tecmint.com/install-mariadb-in-centos-7/
+		vi /etc/yum.repos.d/MariaDB.repo
+
+		[mariadb]
+		name = MariaDB
+		baseurl = http://yum.mariadb.org/10.1/centos7-amd64
+		gpgkey=https://yum.mariadb.org/RPM-GPG-KEY-MariaDB
+		gpgcheck=1
+
+		yum install MariaDB-server MariaDB-client -y
+		
+		** repos should be added, cent OS 7
+			[root@k8s-Master ~]# ls /etc/yum.repos.d/
+				centos7.repo      CentOS-Debuginfo.repo  CentOS-Sources.repo  kubernetes.repo
+				CentOS-Base.repo  CentOS-fasttrack.repo  CentOS-Vault.repo    MariaDB.repo
+				CentOS-CR.repo    CentOS-Media.repo      docker-ce.repo
+
+			[root@k8s-Master ~]# cat /etc/yum.repos.d/centos7.repo
+				[centos7repo]
+				name=CentOS7 Repository
+				baseurl=http://mirror.cisp.com/CentOS/7/os/x86_64/
+				enabled=1
+				gpgcheck=1
+				gpgkey=http://mirror.cisp.com/CentOS/7/os/x86_64/RPM-GPG-KEY-CentOS-7
+
+		# systemctl start mariadb
+		# systemctl enable mariadb
+		# systemctl status mariadb
+
+		mysql_secure_installation
+
+		mysql -u root -p
+		root/root123
+		
+Adding more users:
+
+mysql> CREATE USER 'monty'@'localhost' IDENTIFIED BY 'some_pass';
+mysql> GRANT ALL PRIVILEGES ON *.* TO 'monty'@'localhost'
+    ->     WITH GRANT OPTION;
+mysql> CREATE USER 'monty'@'%' IDENTIFIED BY 'some_pass';
+mysql> GRANT ALL PRIVILEGES ON *.* TO 'monty'@'%'
+    ->     WITH GRANT OPTION;
+	
+	
+	
+	root/root123
+
+
+

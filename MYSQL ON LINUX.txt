@@ -1,0 +1,17 @@
+SETTING UP MYSQL ON LINUX
+		https://www.digitalocean.com/community/tutorials/how-to-install-mysql-on-centos-7
+		https://dev.mysql.com/downloads/repo/yum/
+	mysql80-community-release-el7-1.noarch.rpm [pick your desired Version]
+			wget https://dev.mysql.com/get/mysql80-community-release-el7-1.noarch.rpm
+			rpm -ivh mysql80-community-release-el7-1.noarch.rpm
+			yum install mysql-server
+			systemctl start mysqld
+			systemctl enable mysqld
+			systemctl status mysqld
+	get temporary password
+			grep 'temporary password' /var/log/mysqld.log
+	reset password
+			mysql_secure_installation
+	enter old password and set new Root123@1
+	check the setup
+			mysqladmin -u root -p version
