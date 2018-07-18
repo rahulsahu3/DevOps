@@ -1,0 +1,5 @@
+https://www.linuxtechi.com/install-configure-jenkins-on-centos-7-rhel-7/
+
+https://www.digitalocean.com/community/tutorials/how-to-set-up-jenkins-for-continuous-development-integration-on-centos-7
+
+Admin/root123

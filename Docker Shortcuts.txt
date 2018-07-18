@@ -21,3 +21,7 @@ scp ./YAML\ Files/zabbix-web-nginx-mysql.yml root@192.168.43.128://root/Kube/YAM
 
 vim 
 :1,$d     					deletes all content of file
+
+yum whatprovides service
+Where service is the name of the service or tool you require.
+

@@ -1,0 +1,11 @@
+Retrying (Retry(total=4, connect=None, read=None, redirect=None, status=None)) after connection broken by 'SSLError
+("Can't connect to HTTPS URL because the SSL module is not available.",)': /simple/readline/
+
+Solution:
+https://techglimpse.com/install-python-openssl-support-tutorial/
+
+suse -zypper
+
+rhel/cent - yum
+
+deb -apt
