@@ -1,0 +1,66 @@
+phpmyadmin
+
+
+On Kube Cluster
+	https://docs.oracle.com/cd/E52668_01/E88884/html/kubectl-pod-yaml-deployments.html
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: phpmyadmin
+  name: phpmyadmin
+spec:
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    name: phpmyadmin
+  type: NodePort
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: phpmyadmin
+  labels:
+    name: phpmyadmin
+spec:
+  containers:
+    - name: phpmyadmin
+      image: phpmyadmin/phpmyadmin
+      env:
+        - name: PMA_HOST
+          value: <sql server address>
+      ports:       
+        - containerPort: 80
+          name: phpmyadmin
+
+
+- name: PMA_HOST
+  value: mysql-service----------------------------->>replace this with you maria db <ip>:<port>; this tells ph myadmin which sql server to use
+
+- name: PMA_HOST
+  value: 192.168.43.128:3306
+
+you may get this error in pod:
+
+mysqli_real_connect(): (HY000/1130): Host 'k8s-Slave01' is not allowed to connect to this MariaDB server
+
+mysql> CREATE USER 'monty'@'localhost' IDENTIFIED BY 'some_pass';
+mysql> GRANT ALL PRIVILEGES ON *.* TO 'monty'@'localhost'
+    ->     WITH GRANT OPTION;
+mysql> CREATE USER 'monty'@'%' IDENTIFIED BY 'some_pass';
+mysql> GRANT ALL PRIVILEGES ON *.* TO 'monty'@'%'
+    ->     WITH GRANT OPTION;
+	
+	
+	
+	root/root123
+
+
+LDAP Authentication remaining
+
+https://github.com/monitoringartist/kubernetes-zabbix/blob/master/zabbix-all-in-one-bare-metal.yaml
+https://www.reddit.com/r/devops/comments/6k8d1d/zabbix_monitoring_dynamic_docker_containers/
+

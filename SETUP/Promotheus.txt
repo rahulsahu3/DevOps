@@ -1,0 +1,51 @@
+https://devopscube.com/setup-prometheus-monitoring-on-kubernetes/
+
+
+[root@k8s-Master Kube]# git clone https://github.com/bibinwilson/kubernetes-prometheus
+Cloning into 'kubernetes-prometheus'...
+remote: Counting objects: 33, done.
+remote: Compressing objects: 100% (13/13), done.
+remote: Total 33 (delta 5), reused 0 (delta 0), pack-reused 20
+Unpacking objects: 100% (33/33), done.
+[root@k8s-Master Kube]# ls
+config  create.sql.gz  keys  kubernetes-prometheus  YAML  zabbix-java-gateway.tar
+[root@k8s-Master Kube]# cd kubernetes-prometheus/
+[root@k8s-Master kubernetes-prometheus]# ls
+clusterRole.yaml  config-map.yaml  prometheus-deployment.yaml  prometheus-service.yaml  README.md
+
+[root@k8s-Master kubernetes-prometheus]# kubectl create namespace monitoring
+namespace/monitoring created
+[root@k8s-Master kubernetes-prometheus]# kubectl create -f c
+clusterRole.yaml  config-map.yaml
+
+[root@k8s-Master kubernetes-prometheus]# kubectl create -f clusterRole.yaml
+clusterrole.rbac.authorization.k8s.io/prometheus created
+clusterrolebinding.rbac.authorization.k8s.io/prometheus created
+
+[root@k8s-Master kubernetes-prometheus]# kubectl create -f config-map.yaml -n monitoring
+configmap/prometheus-server-conf created
+
+[root@k8s-Master kubernetes-prometheus]# kubectl create  -f prometheus-deployment.yaml --namespace=monitoring
+deployment.extensions/prometheus-deployment created
+[root@k8s-Master kubernetes-prometheus]# kubectl get deployments --namespace=monitoring
+NAME                    DESIRED   CURRENT   UP-TO-DATE   AVAILABLE   AGE
+prometheus-deployment   1         1         1            0           11s
+[root@k8s-Master kubernetes-prometheus]#
+[root@k8s-Master kubernetes-prometheus]# kubectl get pods --namespace=monitoring
+NAME                                     READY     STATUS              RESTARTS   AGE
+prometheus-deployment-685b54c7c4-cg6hj   0/1       ContainerCreating   0          24s
+
+[root@k8s-Master kubernetes-prometheus]# kubectl port-forward prometheus-deployment-685b54c7c4-cg6hj 8080:9090
+Error from server (NotFound): pods "prometheus-deployment-685b54c7c4-cg6hj" not found
+[root@k8s-Master kubernetes-prometheus]# kubectl get pods --namespace=monitoring
+NAME                                     READY     STATUS    RESTARTS   AGE
+prometheus-deployment-685b54c7c4-cg6hj   1/1       Running   0          2m
+
+[root@k8s-Master kubernetes-prometheus]# kubectl port-forward prometheus-deployment-685b54c7c4-cg6hj -n monitoring 8080:9090
+Forwarding from 127.0.0.1:8080 -> 9090
+Forwarding from [::1]:8080 -> 9090
+
+[root@k8s-Master kubernetes-prometheus]# kubectl create -f prometheus-service.yaml --namespace=monitoring
+service/prometheus-service created
+
+

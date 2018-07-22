@@ -1,0 +1,33 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: phpmyadmin
+  name: phpmyadmin
+  namespace: ingress-nginx
+spec:
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    name: phpmyadmin
+  type: NodePort
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: phpmyadmin
+  labels:
+    name: phpmyadmin
+  namespace: ingress-nginx
+spec:
+  containers:
+    - name: phpmyadmin
+      image: phpmyadmin/phpmyadmin
+      env:
+        - name: PMA_HOST
+          value: 192.168.43.128:3306	
+      ports:           
+        - containerPort: 80
+          name: phpmyadmin

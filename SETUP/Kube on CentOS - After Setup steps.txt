@@ -64,7 +64,7 @@ K8s Cluster:
 
 
 For RBAC Flannel:
-	After setting up the cluster; in browser 6443 is inaccessible; unauthorised; that is resolved after implementing this
+	After setting up the cluster;
 			kubectl create -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/k8s-manifests/kube-flannel-rbac.yml
 			
 			kubectl delete -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/k8s-manifests/kube-flannel-rbac.yml
@@ -72,63 +72,28 @@ For RBAC Flannel:
  Setting up the DashBoard:
 	 	http://www.joseluisgomez.com/containers/kubernetes-dashboard/
 	 	https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml
-	 	https://github.com/kubernetes/dashboard/blob/master/src/deploy/recommended/kubernetes-dashboard.yaml
-	 		
+	 	https://github.com/kubernetes/dashboard/blob/master/src/deploy/recommended/kubernetes-dashboard.yaml	
+		*****///////\\\\\\*********
+		https://<master-ip>:<apiserver-port>/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/
+
+		/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/
+		*****\\\\\\\///////*********
 	 		kubectl create -f https://raw.githubusercontent.com/kubernetes/dashboard/master/src/deploy/recommended/kubernetes-dashboard.yaml
 
 	 		kube-system   kubernetes-dashboard-6948bdb78-t44sm   0/1       CrashLoopBackOff   6          8m
+	 	CrashLoopBackOff -> Turn Firewall off on Nodes
+	 	Add Certificate and Token
 
  Generate Certs:
  		https://github.com/kubernetes/dashboard/wiki/Certificate-management
-	 		kubectl get secret kubernetes-dashboard-certs -n kube-system -o yaml
+	 	grep 'client-certificate-data' ~/.kube/config | head -n 1 | awk '{print $2}' | base64 -d >> kubecfg.crt
 
-	 		[root@k8s-Master ~]# mkdir KubeCerts
+		grep 'client-key-data' ~/.kube/config | head -n 1 | awk '{print $2}' | base64 -d >> kubecfg.key
 
-			[root@k8s-Master ~]# cd KubeCerts/
+		openssl pkcs12 -export -clcerts -inkey kubecfg.key -in kubecfg.crt -out kubecfg.p12 -name "kubernetes-client"
 
-			[root@k8s-Master KubeCerts]# openssl genrsa -des3 -passout pass:x -out dashboard.pass.key 2048
-			Generating RSA private key, 2048 bit long modulus
-			.........................................................................................................+++
-			...................................................+++
-			e is 65537 (0x10001)
+			Add the generated certs in browser
 
-			[root@k8s-Master KubeCerts]# openssl rsa -passin pass:x -in dashboard.pass.key -out dashboard.key
-			writing RSA key
-
-			[root@k8s-Master KubeCerts]# rm dashboard.pass.key
-			rm: remove regular file ‘dashboard.pass.key’? y
-
-			[root@k8s-Master KubeCerts]# openssl req -new -key dashboard.key -out dashboard.csr
-			You are about to be asked to enter information that will be incorporated
-			into your certificate request.
-			What you are about to enter is what is called a Distinguished Name or a DN.
-			There are quite a few fields but you can leave some blank
-			For some fields there will be a default value,
-			If you enter '.', the field will be left blank.
-			-----
-			Country Name (2 letter code) [XX]:91
-			State or Province Name (full name) []:KA
-			Locality Name (eg, city) [Default City]:BL
-			Organization Name (eg, company) [Default Company Ltd]:MPHASIS LTD
-			Organizational Unit Name (eg, section) []:HP
-			Common Name (eg, your name or your server's hostname) []:K8s
-			Email Address []:prem@gmail.com
-
-			Please enter the following 'extra' attributes
-			to be sent with your certificate request
-			A challenge password []:Compaq123
-			An optional company name []:Compaq123
-
-			[root@k8s-Master KubeCerts]# openssl x509 -req -sha256 -days 365 -in dashboard.csr -signkey dashboard.key -out dashboard.crt
-			Signature ok
-			subject=/C=91/ST=KA/L=BL/O=MPHASIS LTD/OU=HP/CN=K8s/emailAddress=prem@gmail.com
-			Getting Private key
-
-			kubectl create secret tls kubernetes-dashboard-certs --cert=dashboard.crt --key=dashboard.key
-			kubectl create secret tls kubernetes-dashboard-certs  -n kube-system --cert=dashboard.crt --key=dashboard.key
-
-Solution for CrashLoopBackOff:
-	Not Found
 
 
 To access kubectl from slave

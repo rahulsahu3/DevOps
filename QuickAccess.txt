@@ -1,0 +1,19 @@
+k8s Clusterinfo
+
+https://kubernetes.io/docs/reference/kubectl/cheatsheet/
+
+Token:
+eyJhbGciOiJSUzI1NiIsImtpZCI6IiJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJhZG1pbi11c2VyLXRva2VuLXY4bDlrIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImFkbWluLXVzZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiJmN2NiODdlZS04MjZjLTExZTgtOTRjMy0wODAwMjc2N2U0ZWIiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZS1zeXN0ZW06YWRtaW4tdXNlciJ9.ERgZh5zWf5ir5_l3GQEGFXNk3f7kx9V0UoY1IioG8wfhTGbLeOZacaMjeBFtfbQ0aYr9asikeUTtkBQGsRFvXiY8ssiI7aZyOZDpbcPOY2ZM_ATmLUlIvGAIACLvyTCIiXAUWvxhPiy6cTe7GvbxIyVIx1T5rsL_nnjv7CyEOFOg6WMgVVMhgLLV6qMxj_ayXu1X8VptyvPlnGam8GQQSvpyyUZeuEFlS0gzZTJldWGUCPAqwg9l63psbiPH5sAaC6xhWKdf8IB-YNo_IsBQAfEK4WXEfujDVYQ1ERNuuMfVycdJgLSxbRfNwlnQASiCJZlviyR5zhznSe2b8TM4hA
+
+
+dashboard : https://ind-blr-k8smaster.dubey.org/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/
+dashboard : https://192.168.43.128:6443/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/
+zabbix appliance : http://192.168.43.100:31743/    Admin/zabbix
+phpmyadmin : http://192.168.43.100:30004/			[root/root123]
+mariadb : https://192.168.43.128:3306/				mysql -u root -p root123
+zabbix-java-gateway : http://192.168.43.100:30002/	
+zabbix-web-nginx-mysql : http://192.168.43.100:30003/     Admin/zabbix
+zabbix-server-mysql : http://192.168.43.100:30001/
+prometheus : http://192.168.43.100:30000/graph		
+
+

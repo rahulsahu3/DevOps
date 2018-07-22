@@ -1,0 +1,71 @@
+http://nginx.org/en/docs/beginners_guide.html
+http://nginx.org/en/docs/beginners_guide.html
+http://nginx.org/en/docs/http/load_balancing.html
+ 
+ 
+In Linux	 
+	windows is available by hostname[prem-PC] 			check using hostname
+	hosts are available to one another as defined in /etc/hosts; nginx plays no part whatsoever
+				it's just hosted on port 80 like any other service; can be moved to any other port
+				both ping and curl
+	prem-PC can be accessed by name but vice versa is not possible
+	
+in Windows 
+	can ping self hostname
+	linux VMs not accessible via hostname
+	
+Adding Hostname in Windows
+https://support.rackspace.com/how-to/modify-your-hosts-file/
+	Opem CMD as administrator
+	open C:\Windows\System32\Drivers\etc\hosts in notepad
+	add the required details; it will be same as in linux systems
+	save; Everything should be okay now
+	
+	
+main nginx.conf will have 
+	include /etc/nginx/conf.d/*.conf;
+add file.conf in conf.d
+
+server {
+  listen 80;
+  server_name ussl-grafana.usanainc.com;
+  location / {
+    proxy_pass http://gweb:3000;						--->> address to go
+  }
+}
+
+
+server {
+  listen 8080;
+  server_name _;
+  location / {
+    proxy_pass https://ind-blr-k8smaster.dubey.org:6443/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/;
+  }
+}
+
+OR ADD PATH IN NGINX.CONF IF YOU WANT ON SAME PORT BUT DIFFERENT ADDRESS
+
+    server {
+        listen       80 default_server;
+        listen       [::]:80 default_server;
+        server_name  _;
+        root         /usr/share/nginx/html;
+
+        # Load configuration files for the default server block.
+        include /etc/nginx/default.d/*.conf;
+
+        location / {
+        }
+          location /dashboard {
+            proxy_pass https://ind-blr-k8smaster.dubey.org:6443/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/;
+          }
+        error_page 404 /404.html;
+            location = /40x.html {
+        }
+
+        error_page 500 502 503 504 /50x.html;
+            location = /50x.html {
+        }
+    }
+
+

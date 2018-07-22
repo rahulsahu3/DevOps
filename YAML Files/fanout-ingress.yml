@@ -1,0 +1,31 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: nginx-ingress
+  namespace: ingress-nginx
+  annotations:
+    kubernetes.io/ingress.class: nginx
+spec:
+  tls:
+  - hosts:
+    - ind-blr-k8sSlave01.dubey.org
+  rules:
+    - host: 
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: default-http-backend
+              servicePort: 80
+          - path: /phpmyadmin
+            backend:
+              serviceName: phpmyadmin
+              servicePort: 80
+          - path: /zabbix-server-mysql
+            backend:
+              serviceName: zabbix-server-mysql
+              servicePort: 10051      
+          - path: /zabbix-web-nginx-mysql
+            backend:
+              serviceName: zabbix-web-nginx-mysql
+              servicePort: 80                    

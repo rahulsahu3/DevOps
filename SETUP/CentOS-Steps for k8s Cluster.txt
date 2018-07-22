@@ -3,6 +3,7 @@ vim /etc/hosts
 add in above:
 192.168.43.128      k8s-Master
 192.168.43.100      k8s-Slave01
+192.168.43.71       k8s-Slave02
 
 192.168.1.23		Centos-k8s-Master
 198.168.1.24		node01

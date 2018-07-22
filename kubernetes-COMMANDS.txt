@@ -3,3 +3,11 @@ lubectl create
 kubectl delete
 kubectl describe
 kubectl explain
+
+
+TOKEN
+
+kubeadm token generate
+kubeadm token create
+	wohhyg.4byge76w0srvkiszclea
+kubeadm join --token wohhyg.4byge76w0srvkisz --discovery-token-unsafe-skip-ca-verification 192.168.43.128:6443

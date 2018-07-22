@@ -1,0 +1,31 @@
+delete all stopped pods:
+	 docker rm -f $(docker ps -q --filter "status=exited")
+	 
+	 
+make a zip copy of image:
+	docker save -o <path for generated tar file .tar> <image name>
+	docker save -o ./zabbix-java-gateway.tar a05f3c52a819
+	
+	scp zabbix-java-gateway.tar root@192.168.43.128://root/Kube/
+
+
+load a zip copy of image:
+	docker load -i <path to image tar file>
+	docker load -i zabbix-java-gateway.tar
+	
+nginx -s reload
+
+scp ./YAML\ Files/zabbix-web-nginx-mysql.yml root@192.168.43.100://
+
+scp ./YAML\ Files/zabbix-web-nginx-mysql.yml root@192.168.43.128://root/Kube/YAML
+
+vim 
+:1,$d     					deletes all content of file
+
+yum whatprovides service
+Where service is the name of the service or tool you require.
+
+Windows add PATH
+PATH=%PATH%;C:\Program Files\Oracle\VirtualBox
+
+C:\Windows\System32\Drivers\etc\hosts

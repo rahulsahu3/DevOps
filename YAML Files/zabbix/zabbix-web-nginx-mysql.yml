@@ -1,0 +1,49 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: zabbix-web-nginx-mysql
+  labels:
+    name: zabbix-web-nginx-mysql
+    app: zabbix-app
+spec:
+  containers:
+    - name: zabbix-web-nginx-mysql
+      image: zabbix/zabbix-web-nginx-mysql:latest
+      env:
+        - name: DB_SERVER_HOST
+          value: "192.168.43.128"	
+        - name: ZBX_SERVER
+          value: "192.168.43.100"          
+        - name: MYSQL_DATABASE
+          value: "zabbix"	
+        - name: MYSQL_USER
+          value: "root"	
+        - name: MYSQL_PASSWORD
+          value: "root123"	
+        - name: MYSQL_ROOT_PASSWORD
+          value: "root123"		    
+        - name: ZBX_SERVER_PORT
+          value: "31944"	          
+        - name: ZBX_SERVER_NAME
+          value: "zabbix-server-mysql"	              
+      ports:           
+        - containerPort: 80
+          name: zabbix-nginx
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zabbix-web-nginx-mysql
+  labels:
+    name: zabbix-web-nginx-mysql
+    app: zabbix-app
+spec:
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    name: zabbix-web-nginx-mysql
+    app: zabbix-app
+  type: NodePort
+---
