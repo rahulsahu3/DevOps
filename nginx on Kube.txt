@@ -1,0 +1,18 @@
+A:
+	run php and zabbix in default
+	run docker container with mapped conf file
+	change the conf to map it to kuben odeports
+	https://docs.docker.com/samples/library/nginx/#exposing-external-port
+	https://hub.docker.com/_/nginx/
+	
+B:
+	run ngnx container in Kube and edit conf to support 
+	https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/
+	
+C:
+	Ingress
+	
+D: 
+	some other way
+	
+	

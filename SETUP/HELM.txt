@@ -6,3 +6,7 @@ $ ./get_helm.sh
 
 helm init
 https://github.com/kubernetes/helm/blob/master/docs/install.md	
+
+
+grafana
+https://www.digitalocean.com/community/tutorials/how-to-install-and-configure-grafana-to-plot-beautiful-graphs-from-zabbix-on-centos-7

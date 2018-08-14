@@ -8,9 +8,9 @@ metadata:
 spec:
   tls:
   - hosts:
-    - ind-blr-k8sSlave01.dubey.org
+    - ind-blr-k8sslave.dubey.org
   rules:
-    - host: 
+    - host: ind-blr-k8sslave.dubey.org
       http:
         paths:
           - path: /

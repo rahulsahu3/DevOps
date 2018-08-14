@@ -72,7 +72,7 @@ kubectl get pods --all-namespaces
 ***********
 
 *********only on SLAVE
-kubeadm join 192.168.43.128:6443 --token gexg3n.jk1m7cn2k3lprsyt --discovery-token-ca-cert-hash sha256:1e5e8e83a787791d8e1a05f5b85c7c55cb749573e2eaa0ae162619c108018a5b
+kubeadm join 192.168.43.128:6443 --token y8eyfl.xex9iv67a476wdcm --discovery-token-ca-cert-hash sha256:1e5e8e83a787791d8e1a05f5b85c7c55cb749573e2eaa0ae162619c108018a5b
 ***********
 
 **********Testing The Cluster

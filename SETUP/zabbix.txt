@@ -26,7 +26,7 @@ Defaultt Credentials:
 	
 	
 Possible Configuration:
-{there should be a musql}
+{there should be a mysql}
 	Zabbix Appliance all in one
 	zabbix,java gateway, and  Zabbix web interface on Kube, maria on nodeport
 	all seperate on Kube

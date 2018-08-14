@@ -1,0 +1,1 @@
+https://github.com/ThoughtWorksInc/ScaleWorks_YUMChina/wiki/Install-Zabbix-Agent-%5BCentOS-RHEL%5D

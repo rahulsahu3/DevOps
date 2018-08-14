@@ -8,7 +8,7 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: nginx-ingress-serviceaccount
-  namespace: ingress-nginx
+  namespace: default
 
 ---
 
@@ -70,7 +70,7 @@ apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: Role
 metadata:
   name: nginx-ingress-role
-  namespace: ingress-nginx
+  namespace: default
 rules:
   - apiGroups:
       - ""
@@ -113,7 +113,7 @@ apiVersion: rbac.authorization.k8s.io/v1beta1
 kind: RoleBinding
 metadata:
   name: nginx-ingress-role-nisa-binding
-  namespace: ingress-nginx
+  namespace: default
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: Role
@@ -121,7 +121,7 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: nginx-ingress-serviceaccount
-    namespace: ingress-nginx
+    namespace: default
 
 ---
 
@@ -136,7 +136,7 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: nginx-ingress-serviceaccount
-    namespace: ingress-nginx
+    namespace: default
 
 ---
 apiVersion: extensions/v1beta1
@@ -145,7 +145,7 @@ metadata:
   name: default-http-backend
   labels:
     app: default-http-backend
-  namespace: ingress-nginx
+  namespace: default
 spec:
   replicas: 1
   template:
@@ -182,7 +182,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: default-http-backend
-  namespace: ingress-nginx
+  namespace: default
   labels:
     app: default-http-backend
 spec:
@@ -198,7 +198,7 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   name: nginx-configuration
-  namespace: ingress-nginx
+  namespace: default
   labels:
     app: ingress-nginx
 
@@ -208,7 +208,7 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   name: tcp-services
-  namespace: ingress-nginx
+  namespace: default
 
 ---
 
@@ -216,13 +216,13 @@ kind: ConfigMap
 apiVersion: v1
 metadata:
   name: udp-services
-  namespace: ingress-nginx
+  namespace: default
 ---
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   name: nginx-ingress-controller
-  namespace: ingress-nginx 
+  namespace: default 
 spec:
   replicas: 1
   selector:
@@ -262,19 +262,17 @@ apiVersion: v1
 kind: Service
 metadata:
   name: ingress-nginx
-  namespace: ingress-nginx
+  namespace: default
 spec:
   type: NodePort
   ports:
   - name: http
     port: 80
     targetPort: 80
-    nodePort: 31001
     protocol: TCP
   - name: https
     port: 443
     targetPort: 443
-    nodePort: 31002
     protocol: TCP
   selector:
     app: ingress-nginx

@@ -1,7 +1,7 @@
 http://nginx.org/en/docs/beginners_guide.html
 http://nginx.org/en/docs/beginners_guide.html
 http://nginx.org/en/docs/http/load_balancing.html
- 
+https://tech.holidayextras.com/routing-to-internal-kubernetes-services-using-proxies-and-ingress-controllers-e7eb44954d53
  
 In Linux	 
 	windows is available by hostname[prem-PC] 			check using hostname

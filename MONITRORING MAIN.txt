@@ -1,0 +1,24 @@
+prom-graff
+
+https://github.com/giantswarm/kubernetes-prometheus            OK
+
+http://prometheus-node-exporter:9100
+http://kube-state-metrics:8080
+http://alert-manager:9093
+
+
+https://grafana.com/dashboards/4002
+https://grafana.net/dashboards/162
+
+as node ip:80
+https://stackoverflow.com/questions/44519980/assign-external-ip-to-a-kubernetes-service
+
+nfsserver
+https://opensource.ncsa.illinois.edu/confluence/display/~lambert8/NFS+in+Kubernetes
+///////////////////
+
+https://devopscube.com/setup-prometheus-monitoring-on-kubernetes/
+
+https://github.com/giantswarm/kubernetes-prometheus
+
+https://github.com/giantswarm/kubernetes-prometheus/tree/master/manifests	

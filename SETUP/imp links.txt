@@ -1,0 +1,12 @@
+SSL/TLS 
+https://docs.bitnami.com/kubernetes/how-to/secure-kubernetes-services-with-ingress-tls-letsencrypt/
+
+NFS Server
+https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nfs-mount-on-centos-6
+https://www.howtoforge.com/tutorial/setting-up-an-nfs-server-and-client-on-centos-7/
+https://www.tecmint.com/how-to-setup-nfs-server-in-linux/
+https://www.serverlab.ca/tutorials/linux/storage-file-systems-linux/how-to-setup-an-nfs-server-on-centos-6/		OK
+https://www.itzgeek.com/how-tos/linux/centos-how-tos/how-to-setup-nfs-server-on-centos-7-rhel-7-fedora-22.html
+
+PV using NFS
+https://docs.openshift.org/latest/install_config/storage_examples/shared_storage.html

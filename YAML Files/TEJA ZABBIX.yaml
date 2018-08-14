@@ -17,7 +17,7 @@ spec:
       image: zabbix/zabbix-server-mysql:latest
       env:
         - name: DB_SERVER_HOST
-          value: "192.168.43.128"	
+          value: "10.16.131.220"	
         - name: MYSQL_DATABASE
           value: "zabbix"	
         - name: MYSQL_USER
@@ -44,11 +44,10 @@ spec:
   ports:
     - port: 10051
       targetPort: 10051
-      nodePort: 30001
   selector:
     name: zabbix-server-mysql
     app: zabbix-app
-  type: NodePort
+  type: ClusterIP
 ---
 apiVersion: v1
 kind: Pod
@@ -98,9 +97,9 @@ spec:
       image: zabbix/zabbix-web-nginx-mysql:latest
       env:
         - name: DB_SERVER_HOST
-          value: "192.168.43.128"	
+          value: "10.16.131.220"	
         - name: ZBX_SERVER
-          value: "192.168.43.100"          
+          value: "ZABBIX_SERVER_MYSQL"          
         - name: MYSQL_DATABASE
           value: "zabbix"	
         - name: MYSQL_USER
@@ -164,7 +163,49 @@ spec:
       image: phpmyadmin/phpmyadmin
       env:
         - name: PMA_HOST
-          value: 192.168.43.128:3306
+          value: 10.16.131.220:3306
       ports:           
         - containerPort: 80
           name: phpmyadmin
+---
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+      name: nginx-deployment
+      namespace: zabbix
+spec:
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: nginx
+        ports:
+        - containerPort: 80
+        volumeMounts:
+          - name: nginx-storage
+            mountPath: "/etc/nginx/conf.d"
+      volumes:
+      - name: nginx-storage
+        nfs:
+          server: isilon01.ussl.uhs
+          path: /ifs/isilon01/nfs/docker-content/zabbix    
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: nginx-service
+  namespace: zabbix
+spec:
+  type: ClusterIP
+  selector:
+    app: nginx
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 80
+  externalIPs: 
+    - 10.16.131.218

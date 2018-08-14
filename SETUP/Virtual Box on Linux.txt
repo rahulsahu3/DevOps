@@ -1,0 +1,22 @@
+https://www.tecmint.com/install-virtualbox-on-redhat-centos-fedora/k8s-master
+
+https://www.linuxtechi.com/manage-virtualbox-virtual-machines-command-line/
+
+VBoxManage createvm --name k8s-master --ostype RedHat_64 --register
+VBoxManage modifyvm  k8s-master --memory 2048
+VBoxManage modifyvm k8s-master --bridgeadapter1 vmnet1
+VBoxManage modifyvm k8s-master --nic1 bridged
+VBoxManage createhd --filename VirtualBox\ VMs/k8s-master/k8s-master.vdi --size 10000 --format VDI
+VBoxManage storagectl k8s-master --name "SATA Controller" --add sata --controller IntelAhci
+VBoxManage storageattach k8s-master --storagectl "SATA Controller" --port 0 --device 0 --type hdd --medium VirtualBox\ VMs/k8s-master/k8s-master.vdi
+VBoxManage storagectl k8s-master --name "IDE Controller" --add ide --controller PIIX4
+VBoxManage storageattach k8s-master --storagectl "IDE Controller" --port 1 --device 0 --type dvddrive --medium /root/CentOS7/CentOS-7-aarch64-Minimal-1804.iso
+VBoxManage startvm k8s-master
+VBoxManage startvm k8s-master --type headless
+
+VBoxManage modifyvm k8s-master --bridgeadapter1 eth0
+VBoxManage modifyvm k8s-master --nic1 bridged
+
+
+VBoxManage guestproperty get k8s-master "/VirtualBox/GuestInfo/Net/0/V4/IP"
+

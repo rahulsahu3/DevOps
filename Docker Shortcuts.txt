@@ -1,3 +1,13 @@
+kubeadm join 192.168.43.128:6443 --token gqyc6j.6oakta7v6tsa5jjj --discovery-token-ca-cert-hash sha256:ac523cff81fde0edd423891b0abc6aff6094f53b1c0f244556ef3398c335daac
+
+kubectl create clusterrolebinding cluster-system-anonymous --clusterrole=cluster-admin --user=system:anonymous
+
+registry
+https://medium.com/@jmarhee/deploying-a-docker-registry-with-persistent-storage-and-local-only-access-on-your-kubernetes-1c6470d3611c
+
+kubectl exec -it <podname> -- bash
+kubectl exec -it nginx-deployment-966857787-8jv94 -- bash
+
 delete all stopped pods:
 	 docker rm -f $(docker ps -q --filter "status=exited")
 	 
@@ -29,3 +39,18 @@ Windows add PATH
 PATH=%PATH%;C:\Program Files\Oracle\VirtualBox
 
 C:\Windows\System32\Drivers\etc\hosts
+
+/etc/resolv.conf
+
+kubectl patch svc ingress-example-joomla --type='json' -p '[{"op":"remove","path":"/spec/ports/0/nodePort"},{"op":"remove","path":"/spec/ports/1/nodePort"},{"op":"replace","path":"/spec/type","value":"ClusterIP"}]'
+
+
+journalctl -u kubelet -b
+
+
+host ports
+http://alesnosek.com/blog/2017/02/14/accessing-kubernetes-pods-from-outside-of-the-cluster/
+https://medium.com/@maniankara/kubernetes-tcp-load-balancer-service-on-premise-non-cloud-f85c9fd8f43c
+
+add service to start at boot
+sudo /sbin/chkconfig --add grafana-server

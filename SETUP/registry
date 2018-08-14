@@ -1,0 +1,36 @@
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: registry
+  labels:
+    app: registry
+  namespace: docker-registry
+spec:
+  containers:
+  - name: registry
+    image: registry:2
+    imagePullPolicy: Always
+    ports:
+      - containerPort: 5000
+    volumeMounts:
+      - name: registry-volume
+        mountPath: "/var/lib/registry"
+  volumes:
+  - name: registry-volume
+    nfs:
+      server: isilon01.ussl.uhs
+      path: /ifs/isilon01/nfs/docker-content/registry  
+---
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: registry
+  namespace: docker-registry
+spec:
+  selector:
+    app: registry
+  ports:
+    - port: 5000
+      targetPort: 5000
