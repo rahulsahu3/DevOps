@@ -1,1 +1,4 @@
 https://github.com/kubernetes/dashboard/wiki/Creating-sample-user#create-service-account
+
+
+https://docs.giantswarm.io/guides/install-kubernetes-dashboard/
