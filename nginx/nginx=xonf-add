@@ -3,11 +3,11 @@
         listen       [::]:80 default_server;
         server_name  _;
 
-        location / {
-                proxy_pass http://grafana-host.monitoring:3000;
-        }
+        #location / {
+                #proxy_pass http://grafana-host.monitoring:3000;
+        #}
           location /dashboard {
-            proxy_pass https://192.168.43.128:6443/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/;
+            proxy_pass https://10.142.0.2:6443/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/;
           }
             location /kube-metrics {
             proxy_pass http://kube-state-metrics.monitoring:8080;

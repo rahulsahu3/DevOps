@@ -1,0 +1,18 @@
+Ansible
+no agents required
+log in via ssh
+gather info
+assign roles 
+run tasks
+use module
+substitute env variable
+
+playbooks
+orchestrate accross files
+playbook-yaml
+
+system module -> add/delete cron jobs
+
+create hosts file
+
+ansible -i hosts all -n ping -u root    -> ping all -> json output
