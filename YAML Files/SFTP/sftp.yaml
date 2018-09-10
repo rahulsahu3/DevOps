@@ -31,7 +31,7 @@ metadata:
   name: sftp
   namespace: sftp
   labels:
-    environment:     environment: production
+    environment: production
     app: sftp
 spec:
   # how many pods and indicate which strategy we want for rolling update
