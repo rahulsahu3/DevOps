@@ -1,0 +1,7 @@
+sftp:
+	https://gist.github.com/prem0132/starred
+
+ftp:
+	gist.github.com
+
+
