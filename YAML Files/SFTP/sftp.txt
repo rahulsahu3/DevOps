@@ -5,3 +5,37 @@ ftp:
 	gist.github.com
 
 
+How to Login to sftp:
+
+key is private and key.pub is public
+key.pub to create secret
+
+[root@k8s-dev-master FTP]# ls
+ftp.yaml  key  key.pub  sftp.yaml
+[root@k8s-dev-master FTP]#
+
+[root@k8s-dev-master FTP]# sftp -i ./key  -P 30022 myUser@10.142.0.2
+The authenticity of host '[10.142.0.2]:30022 ([10.142.0.2]:30022)' can't be established.
+ED25519 key fingerprint is SHA256:r1198TjerL+jWvFvVUt4ubR0Iu/KxQQENA8TgCJMZRs.
+ED25519 key fingerprint is MD5:c4:ca:1a:34:00:d6:58:4a:a9:7b:52:6e:fa:1e:ea:49.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added '[10.142.0.2]:30022' (ED25519) to the list of known hosts.
+Enter passphrase for key './key':
+Connected to 10.142.0.2.
+sftp> exit
+
+
+For ftp:
+
+
+[root@k8s-dev-master FTP]# ftp 10.142.0.2 30080
+Connected to 10.142.0.2 (10.142.0.2).
+220 (vsFTPd 3.0.2)
+Name (10.142.0.2:root): user
+331 Please specify the password.
+Password:
+230 Login successful.
+Remote system type is UNIX.
+Using binary mode to transfer files.
+ftp>
+
