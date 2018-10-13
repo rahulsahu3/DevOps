@@ -126,4 +126,7 @@ git clean -f
 #Or untracked directories (e.g., new or automatically generated directories):
 git clean -fd
 
+#Note: git pull does a git fetch followed by a git merge to update the local repo with the remote repo
 
+#Git pull requests:
+https://yangsu.github.io/pull-request-tutorial/
