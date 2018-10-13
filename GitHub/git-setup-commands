@@ -66,6 +66,8 @@ git push origin master #pushes code to the remote repo
 
 git branch #list all branches
 
+git branch -a 	#lists branches both remote and local
+
 git branch <branch name>	#creates new branch 
 
 git checkout <branch name>	#checkout that branch and starts working in it
@@ -76,7 +78,30 @@ git push -u origin <branch name> 	#this will push to the remote repo and also as
 
 #Merging
 
-git checkout master
+git checkout master 	#make master current working branch
+
+git pull origin master 	#get the changes made while you were not there 
+
+git branch --merged	#shows the branches that has been merged
+
+git merge <branch name>		#merge the branches
+
+git branch --merged	#now it should show the merged branch
+
+
+#Deleting the branch
+
+git branch --merged	#confirm that the branch was merged
+
+git branch -d <branch name>
+
+git branch -a 	#local should be deleted but remote will still be there 
+
+git push origin --delete <branch name >
+
+
+
+
 
 
 
