@@ -1,0 +1,13 @@
+svn - central version control system
+git - distributrd version control system
+
+Cental VCS:
+if server is offline then all you have access is the checked out files and if something happens to the remote repo then there better be a backup or else the entire data is gone
+One central VCS that everybody accesses and uses.
+
+
+Distributed VCS:
+everybody has a local repo that has all info as the remote repo and is updated evrytime you sync it;
+you also have option to have to central vcs if you want it;
+
+

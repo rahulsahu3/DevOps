@@ -1,0 +1,54 @@
+#Add your basic git configuration info:
+
+git config --global user.name "prem dubey"
+git config --global user.email "premdubey@gmail.com"
+
+#check using;
+git config --list
+
+
+#Use case:
+#	If you want to track your local directory using local repo
+
+git init   #-- this will initialize repo locally
+
+git status    #-- check the status of all the files in the initialized repo
+
+touch .gitignore    #-- this file will have info all file we want git to ignore/wild cards can also be used
+
+#3 important places:
+#working directory
+#staging area
+#.git repository
+
+#checkout -> stage -> commit
+
+git add .gitignore	#-- add file
+git add "hello.py"
+
+git status #-- it will show the satging area
+
+git add -A #-- stages all files at once/ adds all files at once
+
+git reset "hello.py" #-- remove files from staging area
+
+git reset #-- remove all from staging
+
+git commit -m "initial commit"  #-- add changes with message
+
+git status #-- should show that repo is clean now
+
+git log #-- will show all commits with user and message and hashes/ hashes are unique for all repo 
+
+
+
+#Use case:
+#	If you want to start contributing to a project already on gitHub along with your team 
+
+git clone <remote repo address from github>
+
+git remote -v #info about the remote repo
+
+git branch -a #lists all the branches
+
+git diff #shows all the changes made to the code
