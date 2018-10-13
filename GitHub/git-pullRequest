@@ -1,0 +1,11 @@
+Git Pull requests
+
+There are 2 ways to generate a pull request
+
+1: This involves forking the repo and then making the changes and then creating a pull Request with the original repo to merge the changes
+
+2: In this; clone the repo and then create a seperate branch;
+	In this branch, you will make your changes and then push it
+	After you have pushed your changes; then you will create a pull request that will be compared with the base branch and merged accordingly
+
+To push a branch to the remote repo, you need to have access to that repo
