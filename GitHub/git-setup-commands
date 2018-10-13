@@ -52,3 +52,7 @@ git remote -v #info about the remote repo
 git branch -a #lists all the branches
 
 git diff #shows all the changes made to the code
+
+git pull
+git pull origin master #pulls the latest code
+
