@@ -56,3 +56,6 @@ git diff #shows all the changes made to the code
 git pull
 git pull origin master #pulls the latest code
 
+
+git push origin master #pushes code to the remote repo
+
