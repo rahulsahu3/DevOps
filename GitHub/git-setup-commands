@@ -100,6 +100,13 @@ git branch -a 	#local should be deleted but remote will still be there
 git push origin --delete <branch name>
 
 
+#Other Very useful Commands
+
+git fetch 	#pulls all the changes but does not attempts merge with local / this is safe
+
+git checkout <file name>	#this will clean all the changes made in the file
+
+git pull 	#this will pull changes and merge with local/ this causes merge conflicts
 
 
 
