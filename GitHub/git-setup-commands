@@ -2,8 +2,9 @@
 
 git config --global user.name "prem dubey"
 git config --global user.email "premdubey@gmail.com"
+#to create local configuration use --local instead of global
 
-#check using;
+#check git configuration using;
 git config --list
 
 
