@@ -70,5 +70,6 @@ git branch <branch name>	#creates new branch
 
 git checkout <branch name>	#checkout that branch and starts working in it
 
-#git add/commit/push works normally but the references changes to the newly created branch
+#git add/commit works normally but the references changes to the newly created branch
 
+git push -u origin <branch name> 	#this will push to the remote repo and also associate the local branch to the remote branch so that next time just push and pull will work
