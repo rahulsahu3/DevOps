@@ -56,6 +56,19 @@ git diff #shows all the changes made to the code
 git pull
 git pull origin master #pulls the latest code
 
-
+git push
 git push origin master #pushes code to the remote repo
+
+
+
+#Branching
+#	to make changes while keeping master clean
+
+git branch #list all branches
+
+git branch <branch name>	#creates new branch 
+
+git checkout <branch name>	#checkout that branch and starts working in it
+
+#git add/commit/push works normally but the references changes to the newly created branch
 
