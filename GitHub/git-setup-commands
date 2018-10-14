@@ -131,3 +131,6 @@ git clean -fd
 
 #Git pull requests:
 https://yangsu.github.io/pull-request-tutorial/
+
+#???
+git remote add origin https://github.com/prem0132/Tempus-Test.git
